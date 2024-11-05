@@ -4,7 +4,7 @@ import { MdOutlineKeyboardArrowDown, MdOutlineLeaderboard } from "react-icons/md
 
 const ProjectMenu = () => {
   return (
-    <div className="project-menu">
+    <div className="project-menu border border-gray-400 border-t-0">
       <div className="font-medium text-lg xl:text-xl">Project A</div>
       <div className="hidden md:flex items-center gap-8 xl:gap-12 text-sm">
         <div className="flex items-center gap-2">

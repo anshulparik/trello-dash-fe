@@ -16,9 +16,12 @@ body {
 
 @layer utilities {
   .nav-container {
-    @apply bg-medium-blue text-white w-full flex items-center justify-between md:justify-start md:gap-14 xl:gap-16 flex-grow shadow-lg px-2 py-3 xl:px-4 xl:py-5;
+    @apply border-b border-gray-400 bg-medium-blue text-white w-full flex items-center justify-between md:justify-start md:gap-14 xl:gap-16 flex-grow px-2 py-3 xl:px-4 xl:py-5;
   }
   .nav-button {
     @apply px-4 py-2 bg-white bg-opacity-20 font-medium text-sm xl:text-lg rounded-md;
+  }
+  .project-menu {
+    @apply bg-dark-blue text-white px-4 py-5 xl:px-4 xl:py-5 flex items-center justify-between md:gap-14 xl:gap-28 md:justify-start;
   }
 }

@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
 
 * {
   margin: 0;
@@ -11,5 +11,14 @@
 @tailwind utilities;
 
 body {
-   font-family: "Roboto", serif;
+  font-family: "Roboto", serif;
+}
+
+@layer utilities {
+  .nav-container {
+    @apply bg-medium-blue text-white w-full flex items-center justify-between md:justify-start md:gap-14 xl:gap-16 flex-grow shadow-lg px-2 py-3 xl:px-4 xl:py-5;
+  }
+  .nav-button {
+    @apply px-4 py-2 bg-white bg-opacity-20 font-medium text-sm xl:text-lg rounded-md;
+  }
 }

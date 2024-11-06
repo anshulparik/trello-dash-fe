@@ -1,3 +1,5 @@
+import { Task } from "./types";
+
 export const TASK_CATEGORY = {
   TODO: "To Do",
   IN_PROGRESS: "In Progress",
@@ -5,7 +7,7 @@ export const TASK_CATEGORY = {
   DONE: "Done",
 } as const;
 
-export const INITIAL_DATA = [
+export const INITIAL_DATA: Task[] = [
   {
     id: 1,
     task: "Task 1",
@@ -51,4 +53,4 @@ export const INITIAL_DATA = [
     task: "Task 9",
     category: TASK_CATEGORY.DONE,
   },
-] as const;
+];

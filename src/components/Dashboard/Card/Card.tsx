@@ -1,19 +1,26 @@
 import { SlOptions } from "react-icons/sl";
-import TextContainer from "./TaskContainer";
+import TaskContainer from "./TaskContainer";
 
-const Card = () => {
+interface CardProps {
+  heading: string;
+  tasks: string[];
+}
+
+const Card = ({ heading, tasks }: CardProps) => {
   return (
-    <div className="bg-off-white rounded-lg px-4 py-6 flex flex-col gap-8 justify-center">
+    <div className="bg-off-white rounded-lg px-4 py-6 flex flex-col gap-8">
       <div className="flex items-center justify-between">
-        <span className="font-semibold text-dark-blue text-md">To Do</span>
-        <SlOptions className="font-semibold text-dark-blue text-lg" />
+        <span className="font-semibold text-dark-blue text-md">{heading}</span>
+        <SlOptions className="cursor-pointer font-semibold text-dark-blue text-lg" />
       </div>
-      <div className="flex flex-col gap-4 justify-center">
-        <TextContainer />
-        <TextContainer />
-        <TextContainer />
+      <div className="flex flex-col gap-4">
+        {tasks.map((task, index) => (
+          <TaskContainer key={index} task={task} />
+        ))}
       </div>
-      <div className="font-medium text-dark-blue text-sm">+ Add a card</div>
+      <div className="cursor-pointer font-medium text-dark-blue text-sm">
+        + Add a card
+      </div>
     </div>
   );
 };

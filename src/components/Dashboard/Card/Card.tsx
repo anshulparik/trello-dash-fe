@@ -17,7 +17,13 @@ const Card = ({ taskCategory, data }: CardProps) => {
       </div>
       <div ref={setNodeRef} className="flex flex-col gap-4 flex-grow">
         {data.map((item) => (
-          <TaskContainer key={item.id} id={item.id} task={item.task} />
+          <TaskContainer
+            key={item.id}
+            id={item.id}
+            task={item.task}
+            createdAt={item.createdAt}
+            updatedAt={item.updatedAt}
+          />
         ))}
       </div>
       <div className="cursor-pointer font-medium text-dark-blue text-sm">

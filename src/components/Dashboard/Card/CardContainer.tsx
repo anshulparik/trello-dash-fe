@@ -1,21 +1,32 @@
-import { useState } from "react";
-import { INITIAL_DATA, TASK_CATEGORY } from "../../../utils/constant";
 import Card from "./Card";
+import { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { AppDispatch, RootState } from "../../../store";
 import { DndContext, DragEndEvent } from "@dnd-kit/core";
-import { Task } from "../../../utils/types";
+import { TASK_CATEGORY } from "../../../utils/constant";
+import { fetchTasks, updateTaskCategory } from "../../../store/taskApis";
 
 const CardContainer = () => {
-  const [tasksData, setTasksData] = useState<Task[]>(INITIAL_DATA);
-  const getFilteredTasks = (
-    category: string
-  ): { id: number; task: string }[] => {
-    const tasks = tasksData
-      ?.filter((item) => item.category === category)
-      .map((item) => {
-        return { id: item.id, task: item.task };
-      });
+  const dispatch: AppDispatch = useDispatch();
+  const tasksData = useSelector((state: RootState) => state.tasks.tasks);
 
-    return tasks;
+  useEffect(() => {
+    dispatch(fetchTasks());
+  }, [dispatch]);
+
+  const getFilteredTasks = (category: string) => {
+    return Array.isArray(tasksData)
+      ? tasksData
+          .filter((item) => {
+            return item.category === category;
+          })
+          .map((item) => ({
+            id: item.id,
+            task: item.task,
+            createdAt: item.createdAt,
+            updatedAt: item.updatedAt,
+          }))
+      : [];
   };
 
   const handleDragEnd = (event: DragEndEvent) => {
@@ -25,14 +36,7 @@ const CardContainer = () => {
     const taskId = active.id as number;
     const newCategory = over.id as string;
 
-    console.log(taskId, "===== taskCategory");
-    console.log(newCategory, "===== newCategory");
-
-    setTasksData((tasksData) =>
-      tasksData?.map((task) =>
-        task.id === taskId ? { ...task, category: newCategory } : task
-      )
-    );
+    dispatch(updateTaskCategory({ id: taskId, newCategory }));
   };
 
   return (

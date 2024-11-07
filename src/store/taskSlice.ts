@@ -1,14 +1,17 @@
 import { Task } from "../utils/types";
-import { createSlice } from "@reduxjs/toolkit";
-import { createTask, fetchTasks, updateTaskCategory } from "./taskApis";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { fetchTasks, updateTaskCategory, createTask } from "./taskApis";
 
-interface TaskState {
-  tasks: Task[];
-  loading: boolean;
-}
+const loadTasksFromLocalStorage = (): Task[] => {
+  const storedTasks = localStorage.getItem("tasks");
+  if (storedTasks) {
+    return JSON.parse(storedTasks);
+  }
+  return [];
+};
 
-const initialState: TaskState = {
-  tasks: [],
+const initialState = {
+  tasks: loadTasksFromLocalStorage(),
   loading: false,
 };
 
@@ -18,21 +21,25 @@ const taskSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(fetchTasks.fulfilled, (state, action) => {
+      .addCase(fetchTasks.fulfilled, (state, action: PayloadAction<Task[]>) => {
         state.tasks = action.payload;
+        localStorage.setItem("tasks", JSON.stringify(state.tasks));
       })
-      .addCase(updateTaskCategory.fulfilled, (state, action) => {
-        const { id, newCategory } = action.payload;
-        const task = state.tasks.find((task) => {
-          return task.id === id;
-        });
-        if (task) {
-          task.category = newCategory;
-          task.updatedAt = `${new Date()}`;
+      .addCase(
+        updateTaskCategory.fulfilled,
+        (state, action: PayloadAction<{ id: number; newCategory: string }>) => {
+          const { id, newCategory } = action.payload;
+          const task = state.tasks.find((task) => task.id === id);
+          if (task) {
+            task.category = newCategory;
+            task.updatedAt = `${new Date()}`;
+          }
+          localStorage.setItem("tasks", JSON.stringify(state.tasks));
         }
-      })
-      .addCase(createTask.fulfilled, (state, action) => {
+      )
+      .addCase(createTask.fulfilled, (state, action: PayloadAction<Task>) => {
         state.tasks.push(action.payload);
+        localStorage.setItem("tasks", JSON.stringify(state.tasks));
       });
   },
 });

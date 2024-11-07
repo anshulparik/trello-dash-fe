@@ -24,3 +24,23 @@ export const updateTaskCategory = createAsyncThunk(
     return { id, newCategory };
   }
 );
+
+export const createTask = createAsyncThunk(
+  "tasks/createTask",
+  async ({ task, category }: { task: string; category: string }) => {
+    const response = await axios.post(`${BE_BASE_URL}/task`, {
+      task,
+      category,
+    });
+
+    const newTask = response.data.task;
+
+    return {
+      id: newTask._id,
+      task: newTask.task,
+      category: newTask.category,
+      createdAt: newTask.createdAt,
+      updatedAt: newTask.updatedAt,
+    };
+  }
+);

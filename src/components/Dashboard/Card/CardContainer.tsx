@@ -12,7 +12,7 @@ const CardContainer = () => {
 
   useEffect(() => {
     dispatch(fetchTasks());
-  }, [dispatch]);
+  }, [dispatch, tasksData]);
 
   const getFilteredTasks = (category: string) => {
     return Array.isArray(tasksData)

@@ -1,6 +1,6 @@
 import { Task } from "../utils/types";
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { fetchTasks, updateTaskCategory } from "./taskApis";
+import { createSlice } from "@reduxjs/toolkit";
+import { createTask, fetchTasks, updateTaskCategory } from "./taskApis";
 
 interface TaskState {
   tasks: Task[];
@@ -15,14 +15,7 @@ const initialState: TaskState = {
 const taskSlice = createSlice({
   name: "tasks",
   initialState,
-  reducers: {
-    addTask: (state, action: PayloadAction<Task>) => {
-      state.tasks.push(action.payload);
-    },
-    removeTask: (state, action: PayloadAction<number>) => {
-      state.tasks = state.tasks.filter((task) => task.id !== action.payload);
-    },
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(fetchTasks.fulfilled, (state, action) => {
@@ -37,9 +30,11 @@ const taskSlice = createSlice({
           task.category = newCategory;
           task.updatedAt = `${new Date()}`;
         }
+      })
+      .addCase(createTask.fulfilled, (state, action) => {
+        state.tasks.push(action.payload);
       });
   },
 });
 
-export const { addTask, removeTask } = taskSlice.actions;
 export default taskSlice.reducer;
